@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import type { NextPage } from 'next';
 import { Web3Modal, Web3Button, useAccount } from '@web3modal/react';
 import useGrpzStore from '../Utils/grpzStore';
+import { ethers } from 'ethers';
 
 if (typeof window === 'undefined') {
   console.log('In server');
@@ -18,6 +19,8 @@ const config = {
 const Home: NextPage = () => {
   const storeWallet = useGrpzStore((store: any) => store.storeWallet);
   const setStoreWallet = useGrpzStore((store: any) => store.setStoreWallet);
+  const storeProvider = useGrpzStore((store: any) => store.storeProvider);
+  const setStoreProvider = useGrpzStore((store: any) => store.setStoreProvider);
   const { account } = useAccount();
 
   useEffect(() => {}, [account]);

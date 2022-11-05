@@ -5,10 +5,14 @@ const useGrpzStore = create(
   persist(
     (set, get) => ({
       storeWallet: null,
+      storeProvider: null,
       test: '123',
 
-      setWallet: (userWallet) => {
+      setStoreWallet: (userWallet) => {
         set({ storeWallet: userWallet });
+      },
+      setStoreProvider: (provider) => {
+        set({ storeProvider: provider });
       },
     }),
     {
