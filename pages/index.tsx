@@ -45,7 +45,7 @@ const Home: NextPage = () => {
       };
 
       _.extend(provider, connection);
-      console.log('what is init', provider);
+      // console.log('what is init', provider);
       setStoreProvider(provider);
     }
   }, [storeProvider]);
