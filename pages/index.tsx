@@ -4,6 +4,7 @@ import { Web3Modal, Web3Button, useAccount } from '@web3modal/react';
 import useGrpzStore from '../Utils/grpzStore';
 import { ethers } from 'ethers';
 import { Loading } from '@nextui-org/react';
+import _ from 'underscore';
 
 if (typeof window === 'undefined') {
   console.log('This is the server');
@@ -18,25 +19,57 @@ const config = {
 };
 
 const Home: NextPage = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const storeWallet = useGrpzStore((store: any) => store.storeWallet);
   const setStoreWallet = useGrpzStore((store: any) => store.setStoreWallet);
   const storeProvider = useGrpzStore((store: any) => store.storeProvider);
   const setStoreProvider = useGrpzStore((store: any) => store.setStoreProvider);
   const { account } = useAccount();
 
-  useEffect(() => {}, [account]);
+  useEffect(() => {
+    if (account.address !== 'undefined') {
+      // setStoreWallet(account);
+    }
+  }, [account]);
 
   useEffect(() => {
     if (storeProvider === null) {
       const provider = new ethers.providers.JsonRpcProvider(
-        'https://sly-powerful-star.matic-testnet.discover.quiknode.pro/a07339481a77e5252708847a721a86e600bb2c22/'
+        'https://orbital-palpable-yard.discover.quiknode.pro/42da4d17b8effd571b8e22db65cec5e84bad5bf8/'
       );
-      provider.connection.headers = { 'x-qn-api-version': 1 };
 
+      let connection = {
+        headers: {
+          'x-qn-api-version': 1,
+        },
+      };
+
+      _.extend(provider, connection);
+      console.log('what is init', provider);
       setStoreProvider(provider);
     }
   }, [storeProvider]);
+
+  useEffect(() => {
+    const getNFTs = async () => {
+      console.log('here is the account', storeWallet);
+      const heads = await storeProvider.send('qn_fetchNFTs', {
+        wallet: storeWallet?.address || account.address,
+        omitFields: ['provenance', 'traits'],
+        page: 1,
+        perPage: 10,
+        // contracts: [
+        //   '0x2106c00ac7da0a3430ae667879139e832307aeaa',
+        //   '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D',
+        // ],
+      });
+      console.log('these are the nfts', heads);
+    };
+
+    if ((storeProvider && storeWallet?.address) || account.address) {
+      getNFTs();
+    }
+  }, [storeWallet || account, storeProvider]);
 
   // wallet connect button logic
 

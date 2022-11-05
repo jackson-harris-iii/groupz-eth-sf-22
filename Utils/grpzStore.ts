@@ -8,10 +8,14 @@ const useGrpzStore = create(
       storeProvider: null,
       test: '123',
 
-      setStoreWallet: (userWallet) => {
-        set({ storeWallet: userWallet });
+      setStoreWallet: (userWallet: any) => {
+        //@ts-ignore
+        let currentWallet = get().storeWallet;
+        if (currentWallet !== userWallet) {
+          set({ storeWallet: userWallet });
+        }
       },
-      setStoreProvider: (provider) => {
+      setStoreProvider: (provider: any) => {
         set({ storeProvider: provider });
       },
     }),
