@@ -76,7 +76,7 @@ const Home: NextPage = () => {
       // using quicknode to get current wallet NFTs
       const nfts = await storeProvider.send('qn_fetchNFTs', {
         wallet: currentWallet,
-        omitFields: ['provenance', 'traits'],
+        omitFields: [],
         page: 1,
         perPage: 40,
         // contracts: [

@@ -1,8 +1,9 @@
-import { Grid, Loading, Row } from '@nextui-org/react';
+import { Avatar, Card, Col, Grid, Loading, Row, Text } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Layout from '../../Components/Layout';
 import useGrpzStore from '../../Utils/grpzStore';
+import { ethers } from 'ethers';
 
 const Memberz = () => {
   const router = useRouter();
@@ -34,46 +35,50 @@ const Memberz = () => {
         </Grid.Container>
       ) : (
         <Grid.Container>
-          {/* {storeGroupzList?.groupzList?.map((group) => (
-        <Row justify="center" wrap="wrap" css={{ m: 10 }}>
-          <Grid xs={6}>
-            <Card
-              isPressable
-              isHoverable
-              variant="bordered"
-              css={{
-                borderColor: 'purple',
-                filter: 'drop-shadow(9px 7px 5px #7C1A7E)',
-              }}
-              onClick={() => router.push(`/memberz/${group.collectionName}`)}
-            >
-              <Card.Header>
-                <Row justify="center">
-                  <Col span={2}>
-                    <Avatar src={group.imageUrl} size="xl" />
-                  </Col>
-                  <Col span={8}>
+          <Row justify="center" wrap="wrap" css={{ m: 10 }}>
+            <Text h2 color="white" weight={'semibold'}>
+              {storeSelectedGroup.collectionName} Memberz
+            </Text>
+          </Row>
+          {selectedGroupMemberz.map((member) => (
+            <Row justify="center" wrap="wrap" css={{ m: 10 }}>
+              <Grid xs={6}>
+                <Card
+                  isPressable
+                  isHoverable
+                  variant="bordered"
+                  css={{
+                    borderColor: '$cyan500 ',
+                    filter: 'drop-shadow(9px 3px 5px cyan)',
+                  }}
+                  onClick={() => router.push(`/memberz/${member.member}`)}
+                >
+                  <Card.Header>
                     <Row justify="center">
-                      <Text
-                        h3
-                        color="white"
-                        weight={'semibold'}
-                        css={{
-                          m: 0,
-                          pt: 15,
-                        }}
-                      >
-                        {group.collectionName}
-                      </Text>
+                      <Col span={2}>
+                        <Avatar src={member.avatar} size="xl" />
+                      </Col>
+                      <Col span={8}>
+                        <Row justify="center">
+                          <Text
+                            h4
+                            color="white"
+                            weight={'semibold'}
+                            css={{
+                              m: 0,
+                              py: 15,
+                            }}
+                          >
+                            {member.member}
+                          </Text>
+                        </Row>
+                      </Col>
                     </Row>
-                  </Col>
-                </Row>
-              </Card.Header>
-            </Card>
-          </Grid>
-        </Row>
-      ))} */}
-          {'hello'}
+                  </Card.Header>
+                </Card>
+              </Grid>
+            </Row>
+          ))}
         </Grid.Container>
       )}
     </Layout>

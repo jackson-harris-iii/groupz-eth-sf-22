@@ -49,13 +49,46 @@ const useGrpzStore = create(
           'qn_fetchNFTsByCollection',
           {
             collection: groupData.collectionAddress,
-            omitFields: ['imageUrl', 'traits'],
+            omitFields: ['imageUrl'],
             page: 1,
             perPage: 20,
           }
         );
 
-        set({ selectedGroupMemberz: memberNfts });
+        const memberz = await memberNfts.tokens.map(async (nft) => {
+          const memberData = await storeProvider.send('qn_getTransfersByNFT', {
+            collection: groupData.collectionAddress,
+            collectionTokenId: nft.collectionTokenId,
+            page: 1,
+            perPage: 1,
+          });
+
+          let name = await storeProvider.lookupAddress(
+            memberData.transfers[0].to
+          );
+
+          let avatar = await storeProvider.getAvatar(
+            memberData.transfers[0].to
+          );
+
+          const memberImgUrl = groupData.imageUrl.replace(
+            groupData.collectionTokenId,
+            nft.collectionTokenId
+          );
+
+          return {
+            avatar: avatar || memberImgUrl,
+            member: name || memberData.transfers[0].to,
+            txDate: memberData.transfers[0].date,
+            collection: groupData.collectionAddress,
+            collectionTokenId: nft.collectionTokenId,
+          };
+        });
+
+        const data = await Promise.all(memberz);
+        console.log('store data', data);
+
+        set({ selectedGroupMemberz: data });
       },
 
       clearGroupMemberz: async () => {
