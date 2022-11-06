@@ -107,7 +107,7 @@ const WalletConnectView = () => (
                           m: 0,
                           pt: 25,
                         }}
-                        href="https://nextui.org/docs/components/link"
+                        href="https://ethglobal.com/showcase/groupz-0ucn9"
                         isExternal
                       >
                         <Text
