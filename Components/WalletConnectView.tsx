@@ -18,7 +18,7 @@ const WalletConnectView = () => (
       <Row justify="center" align="center" wrap="wrap">
         <Col span={12}>
           <Row justify="center" align="center">
-            <Web3Modal config={config} />
+            <Web3Modal config={config as any} />
             <Web3Button />
           </Row>
         </Col>
