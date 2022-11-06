@@ -1,7 +1,10 @@
 import Layout from '../Components/Layout';
 import { Grid, Text, Card, Container, Row, Spacer } from '@nextui-org/react';
+import useGrpzStore from '../Utils/grpzStore';
 
 const UserHome = () => {
+  const storeGroupzList = useGrpzStore((store: any) => store.storeGroupzList);
+
   return (
     <>
       <Layout>
@@ -22,7 +25,10 @@ const UserHome = () => {
                       Group Name
                     </Text>
                   </Row>
-                
+                </Card.Header>
+              </Card>
+            </Grid>
+          </Row>
         </Grid.Container>
       </Layout>
     </>

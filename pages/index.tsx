@@ -8,6 +8,7 @@ import _ from 'underscore';
 
 import WorldCoin from '../Components/WorldCoin';
 import WalletConnectView from '../Components/WalletConnectView';
+import UserHome from './userhome';
 
 if (typeof window === 'undefined') {
   console.log('This is the server');
@@ -39,6 +40,7 @@ const Home: NextPage = () => {
     }
   }, [account]);
 
+  // set up provider
   useEffect(() => {
     if (storeProvider === null) {
       // setLoading(true);
@@ -63,6 +65,7 @@ const Home: NextPage = () => {
     const getNFTs = async () => {
       console.log('here is the account', storeWallet);
       const currentWallet = storeWallet?.address || account.address;
+      // ensure that cached user Acount is the same as the most current account
       if (
         currentWallet === storeAccountNfts?.currentWallet &&
         currentWallet === storeGroupzList.currentWallet
@@ -70,6 +73,7 @@ const Home: NextPage = () => {
         return;
       }
       setLoading(true);
+      // using quicknode to get current wallet NFTs
       const nfts = await storeProvider.send('qn_fetchNFTs', {
         wallet: currentWallet,
         omitFields: ['provenance', 'traits'],
@@ -81,9 +85,11 @@ const Home: NextPage = () => {
         // ],
       });
 
-      const groupzList = _.uniq(nfts, (x: any) => x.collectionName);
+      // make a clean list of all the users groups
+      const groupzList = _.uniq(nfts.assets, (x: any) => x.collectionName);
+      console.log('these are the groupzList', groupzList);
       await setStoreGroupzList({ currentWallet, groupzList });
-      setStoreAccountNfts({ currentWallet, nfts });
+      setStoreAccountNfts({ currentWallet, nfts: nfts.assets });
       setLoading(false);
       console.log('these are the nfts', nfts);
     };
@@ -93,18 +99,16 @@ const Home: NextPage = () => {
     }
   }, [account, storeProvider]);
 
-  // wallet connect button logic
-
-  //if wallet not connected show wallet connect button
-
-  //
-
   if (loading) {
     return <Loading size="xl" />;
   }
 
   if (account.address && storeWorldCoinHash === null) {
     return <WorldCoin />;
+  }
+
+  if (account.address && storeWorldCoinHash) {
+    return <UserHome />;
   }
 
   return (
