@@ -6,6 +6,9 @@ const useGrpzStore = create(
     (set, get) => ({
       storeWallet: null,
       storeProvider: null,
+      storeWorldCoinHash: null,
+      storeGroupzList: null,
+      storeAccountNfts: null,
       test: '123',
 
       setStoreWallet: (userWallet: any) => {
@@ -17,6 +20,18 @@ const useGrpzStore = create(
       },
       setStoreProvider: (provider: any) => {
         set({ storeProvider: provider });
+      },
+
+      setStoreWorldCoinHash: (hash: string) => {
+        set({ storeWorldCoinHash: hash });
+      },
+
+      setStoreGroupzList: (groupzList: any[]) => {
+        set({ storeGroupzList: groupzList });
+      },
+
+      setStoreAccountNfts: (nfts: any[]) => {
+        set({ storeAccountNfts: nfts });
       },
     }),
     {
