@@ -9,6 +9,8 @@ const useGrpzStore = create(
       storeWorldCoinHash: null,
       storeGroupzList: null,
       storeAccountNfts: null,
+      storeSelectedGroup: null,
+      selectedGroupMemberz: null,
       test: '123',
 
       setStoreWallet: (userWallet: any) => {
@@ -32,6 +34,32 @@ const useGrpzStore = create(
 
       setStoreAccountNfts: (nfts: any[]) => {
         set({ storeAccountNfts: nfts });
+      },
+
+      setStoreSelectedGroup: async (groupData) => {
+        set({ storeSelectedGroup: groupData });
+
+        const storeProvider = get().storeProvider;
+
+        console.log('this is the groupdata', groupData.collectionAddress);
+
+        console.log('this is the storeProvider', storeProvider);
+
+        const memberNfts = await storeProvider.send(
+          'qn_fetchNFTsByCollection',
+          {
+            collection: groupData.collectionAddress,
+            omitFields: ['imageUrl', 'traits'],
+            page: 1,
+            perPage: 20,
+          }
+        );
+
+        set({ selectedGroupMemberz: memberNfts });
+      },
+
+      clearGroupMemberz: async () => {
+        set({ selectedGroupMemberz: null });
       },
     }),
     {
