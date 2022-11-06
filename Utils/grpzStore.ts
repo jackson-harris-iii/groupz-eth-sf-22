@@ -36,7 +36,10 @@ const useGrpzStore = create(
     }),
     {
       name: 'groupz-storage',
-      partialize: (state: any) => ({ test: state.test }),
+      partialize: (state: any) => ({
+        test: state.test,
+        storeWorldCoinHash: state.storeWorldCoinHash,
+      }),
     }
   )
 );
