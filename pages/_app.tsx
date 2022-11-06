@@ -7,6 +7,8 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 import { Mulish } from '@next/font/google';
 
+const mullish = Mulish();
+
 const darkTheme = createTheme({
   type: 'dark',
   theme: {
@@ -19,17 +21,26 @@ const darkTheme = createTheme({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <NextThemesProvider
-      defaultTheme="system"
-      attribute="class"
-      value={{
-        dark: darkTheme.className,
-      }}
-    >
-      <NextUIProvider>
-        <Component {...pageProps} />
-      </NextUIProvider>
-    </NextThemesProvider>
+    <>
+      <style jsx global>{`
+        html {
+          font-family: ${mullish.style.fontFamily};
+        }
+      `}</style>
+      <NextThemesProvider
+        defaultTheme="system"
+        attribute="class"
+        value={{
+          dark: darkTheme.className,
+        }}
+      >
+        <NextUIProvider>
+          <main className={mullish.className}>
+            <Component {...pageProps} />
+          </main>
+        </NextUIProvider>
+      </NextThemesProvider>
+    </>
   );
 }
 
