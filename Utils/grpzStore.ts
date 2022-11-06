@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 const useGrpzStore = create(
   persist(
     (set, get) => ({
+      //Groupz Store Variables
       storeWallet: null,
       storeProvider: null,
       storeWorldCoinHash: null,
@@ -11,8 +12,10 @@ const useGrpzStore = create(
       storeAccountNfts: null,
       storeSelectedGroup: null,
       selectedGroupMemberz: null,
+      storeSelected4Dmz: null,
       test: '123',
 
+      //Groupz Store Methods
       setStoreWallet: (userWallet: any) => {
         //@ts-ignore
         let currentWallet = get().storeWallet;
@@ -93,6 +96,14 @@ const useGrpzStore = create(
 
       clearGroupMemberz: async () => {
         set({ selectedGroupMemberz: null });
+      },
+
+      setStoreSelected4Dmz: (member: any) => {
+        set({ storeSelected4Dmz: member });
+      },
+
+      clearSelected4Dmz: async () => {
+        set({ selected4Dmz: null });
       },
     }),
     {

@@ -5,28 +5,23 @@ import Layout from '../../Components/Layout';
 import useGrpzStore from '../../Utils/grpzStore';
 import { ethers } from 'ethers';
 
-const Memberz = () => {
+const Dmz = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const storeSelectedGroup = useGrpzStore(
     (store: any) => store.storeSelectedGroup
   );
-  const selectedGroupMemberz = useGrpzStore(
-    (store: any) => store.selectedGroupMemberz
+  const storeSelected4Dmz = useGrpzStore(
+    (store: any) => store.storeSelected4Dmz
   );
-  const setStoreSelected4Dmz = useGrpzStore(
-    (store: any) => store.setStoreSelected4Dmz
-  );
-  const clearSelected4Dmz = useGrpzStore(
-    (store: any) => store.clearSelected4Dmz
-  );
+  console.log('storeSelectedGroup', storeSelectedGroup);
 
   useEffect(() => {
-    if (selectedGroupMemberz !== null) {
+    if (storeSelected4Dmz !== null) {
       setLoading(false);
-      console.log('memberz', selectedGroupMemberz);
+      console.log('member', storeSelected4Dmz);
     }
-  }, [selectedGroupMemberz]);
+  }, [storeSelected4Dmz]);
 
   return (
     <Layout>
@@ -39,11 +34,14 @@ const Memberz = () => {
       ) : (
         <Grid.Container>
           <Row justify="center" wrap="wrap" css={{ m: 10 }}>
+            <Avatar src={storeSelected4Dmz.avatar} size="xl" />
+          </Row>
+          <Row justify="center" wrap="wrap" css={{ m: 10 }}>
             <Text h2 color="white" weight={'semibold'}>
-              {storeSelectedGroup.collectionName} Memberz
+              dmz w/ {storeSelected4Dmz.member}
             </Text>
           </Row>
-          {selectedGroupMemberz.map((member) => (
+          {/* {selectedGroupMemberz.map((member) => (
             <Row justify="center" wrap="wrap" css={{ m: 10 }}>
               <Grid xs={6}>
                 <Card
@@ -54,13 +52,7 @@ const Memberz = () => {
                     borderColor: '$cyan500 ',
                     filter: 'drop-shadow(9px 3px 5px cyan)',
                   }}
-                  onClick={async () => {
-                    setLoading(true);
-                    await clearSelected4Dmz();
-                    setStoreSelected4Dmz(member);
-                    setLoading(false);
-                    router.push(`/dmz/${member.member}`);
-                  }}
+                  onClick={() => router.push(`/memberz/${member.member}`)}
                 >
                   <Card.Header>
                     <Row justify="center">
@@ -87,11 +79,11 @@ const Memberz = () => {
                 </Card>
               </Grid>
             </Row>
-          ))}
+          ))} */}
         </Grid.Container>
       )}
     </Layout>
   );
 };
 
-export default Memberz;
+export default Dmz;
