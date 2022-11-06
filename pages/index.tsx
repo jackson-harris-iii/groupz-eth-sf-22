@@ -46,7 +46,7 @@ const Home: NextPage = () => {
     if (storeProvider === null) {
       // setLoading(true);
       const provider = new ethers.providers.JsonRpcProvider(
-        'https://orbital-palpable-yard.discover.quiknode.pro/42da4d17b8effd571b8e22db65cec5e84bad5bf8/'
+        'process.env.QN_API_ENDPOINT'
       );
 
       let connection = {
