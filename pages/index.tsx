@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Text } from '@nextui-org/react';
 import type { NextPage } from 'next';
 import { Web3Modal, useAccount, Web3Button } from '@web3modal/react';
 import useGrpzStore from '../Utils/grpzStore';
@@ -10,6 +11,7 @@ import _ from 'underscore';
 import WorldCoin from '../Components/WorldCoin';
 import WalletConnectView from '../Components/WalletConnectView';
 import UserHome from './userhome';
+import Layout from '../Components/Layout';
 
 if (typeof window === 'undefined') {
   console.log('This is the server');

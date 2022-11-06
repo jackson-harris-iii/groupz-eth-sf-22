@@ -27,7 +27,9 @@ const Layout = ({ children }) => {
 
       <Spacer y={2} />
 
-      <Container fluid>{children}</Container>
+      <Container fluid style={{ minHeight: '65vh' }}>
+        {children}
+      </Container>
 
       <Spacer y={2} />
 
@@ -50,7 +52,7 @@ const Layout = ({ children }) => {
             <Col span={6}>
               <Spacer y={2.65} />
               <Row justify="center" wrap="wrap" css={{ ml: -5, pl: 0 }}>
-                <Text h5 color="white" weight={'semibold'}>
+                <Text h6 color="white" weight={'semibold'}>
                   was made with ❤️ by galaxon
                 </Text>
               </Row>
