@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-import { useAccount } from '@web3modal/react';
+import { Web3Modal, useAccount, Web3Button } from '@web3modal/react';
 import useGrpzStore from '../Utils/grpzStore';
 import { ethers } from 'ethers';
 import { Loading } from '@nextui-org/react';
+import { Client } from '@xmtp/xmtp-js';
 import _ from 'underscore';
 
 import WorldCoin from '../Components/WorldCoin';

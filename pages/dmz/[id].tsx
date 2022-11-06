@@ -3,7 +3,9 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Layout from '../../Components/Layout';
 import useGrpzStore from '../../Utils/grpzStore';
-import { ethers } from 'ethers';
+import { Client } from '@xmtp/xmtp-js';
+import { useAccount, useSigner } from '@web3modal/react';
+import { ethers, Wallet } from 'ethers';
 
 const Dmz = () => {
   const router = useRouter();
@@ -14,7 +16,13 @@ const Dmz = () => {
   const storeSelected4Dmz = useGrpzStore(
     (store: any) => store.storeSelected4Dmz
   );
-  console.log('storeSelectedGroup', storeSelectedGroup);
+  const storeWallet = useGrpzStore((store: any) => store.storeWallet);
+  const { account } = useAccount();
+  const { data, error, isLoading, refetch } = useSigner();
+  // let StorageAccount = JSON.parse(localStorage.getItem('walletconnect'));
+
+  console.log('storeWallet', storeWallet);
+  console.log('account', account);
 
   useEffect(() => {
     if (storeSelected4Dmz !== null) {
@@ -22,6 +30,31 @@ const Dmz = () => {
       console.log('member', storeSelected4Dmz);
     }
   }, [storeSelected4Dmz]);
+
+  useEffect(() => {
+    const setupXmtp = async (connectAccount) => {
+      console.log('connectAccount', connectAccount);
+
+      // const provider = new ethers.providers.Web3Provider(connectAccount);
+      // const signer = provider.getSigner();
+      const xmtp = await Client.create(data as any);
+      const conversations = xmtp.conversations;
+      const conversation = await xmtp.conversations.newConversation(
+        '0x6a226ad92182E2885c9A7220c393f0dF9772C68D'
+      );
+      const messages = await conversation.messages();
+      console.log('conversations', conversations);
+      console.log('test', messages);
+    };
+
+    if (account.address !== '' && storeSelected4Dmz && data) {
+      setupXmtp(account);
+    } else {
+      // setupXmtp(StorageAccount);
+      // localStorage.getItem('walletconnect');
+      return;
+    }
+  }, [account, data]);
 
   return (
     <Layout>
